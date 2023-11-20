@@ -2,13 +2,10 @@
 import React from 'react';
 import { StyledHeader } from '../styles/styles';
 import { Typography } from '@mui/material';
+import ResponsiveAppBar from './modules/AppBar';
 
 const Header: React.FC = () => (
-  <StyledHeader>
-    <Typography variant="h3" component="h1">
-      API Explorer
-    </Typography>
-  </StyledHeader>
+  <ResponsiveAppBar />
 );
 
 export default Header;
