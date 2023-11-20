@@ -1,53 +1,56 @@
-// components/ApiForm.tsx
-'use client'
+import React from 'react';
+import { TextField, Button } from '@mui/material';
+import { CustomForm } from '../styles/styles';
 
-import { TextField, Button, CircularProgress } from '@mui/material';
-
-interface ApiFormProps {
-    apiUrl: string;
-    setApiUrl: React.Dispatch<React.SetStateAction<string>>;
-    apiKey: string;
-    setApiKey: React.Dispatch<React.SetStateAction<string>>;
-    handleSendRequest: () => void;
-    loading: boolean;
-  }
+type ApiFormProps = {
+  apiUrl: string;
+  apiKey: string;
+  loading: boolean;
+  setApiUrl: (url: string) => void;
+  setApiKey: (key: string) => void;
+  handleSendRequest: (event: React.FormEvent<HTMLFormElement>) => void;
+};
 
 const ApiForm: React.FC<ApiFormProps> = ({
   apiUrl,
-  setApiUrl,
   apiKey,
+  loading,
+  setApiUrl,
   setApiKey,
   handleSendRequest,
-  loading
-}) => {  return (
-    <div>
-      <TextField
-        label="Enter API URL"
-        value={apiUrl}
-        onChange={(e) => setApiUrl(e.target.value)}
-        fullWidth
-        margin="normal"
-        disabled={loading}
-      />
-      <TextField
-        label="Enter API Key"
-        value={apiKey}
-        onChange={(e) => setApiKey(e.target.value)}
-        fullWidth
-        margin="normal"
-        disabled={loading}
-      />
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={handleSendRequest}
-        disabled={loading}
-        endIcon={loading && <CircularProgress size={20} />}
-      >
-        {loading ? 'Sending...' : 'Send'}
-      </Button>
-    </div>
-  );
-};
+}) => (
+  <CustomForm onSubmit={handleSendRequest}>
+    <TextField
+      margin="normal"
+      required
+      fullWidth
+      id="api-url"
+      label="API URL"
+      name="api-url"
+      autoComplete="api-url"
+      autoFocus
+      onChange={(e) => setApiUrl(e.target.value)}
+    />
+    <TextField
+      margin="normal"
+      required
+      fullWidth
+      name="api-key"
+      label="API Key"
+      type="text"
+      id="api-key"
+      autoComplete="current-api-key"
+      onChange={(e) => setApiKey(e.target.value)}
+    />
+    <Button
+      type="submit"
+      variant="contained"
+      color="primary"
+      disabled={loading}
+    >
+      {loading ? 'Sending...' : 'Send'}
+    </Button>
+  </CustomForm>
+);
 
 export default ApiForm;

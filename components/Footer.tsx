@@ -1,21 +1,15 @@
-import { AppBar, Toolbar, Typography } from '@mui/material';
 
-const footerStyle: React.CSSProperties = {
-  backgroundColor: '#333', // お好みの色に変更
-  color: 'white', // テキストの色を適切なものに変更
-  textAlign: 'center',
-};
+// Footer.tsx
+import React from 'react';
+import { StyledFooter } from '../styles/styles';
+import { Typography } from '@mui/material';
 
-const ModernFooter: React.FC = () => {
-  return (
-    <AppBar position="static" style={footerStyle}>
-      <Toolbar>
-        <Typography variant="body1">
-          &copy; {new Date().getFullYear()} My Modern Website
-        </Typography>
-      </Toolbar>
-    </AppBar>
-  );
-};
+const Footer: React.FC = () => (
+  <StyledFooter>
+    <Typography variant="body2" color="text.secondary" align="center">
+      Privacy Policy ・ Terms of Service
+    </Typography>
+  </StyledFooter>
+);
 
-export default ModernFooter;
+export default Footer;
