@@ -19,11 +19,13 @@ const ApiExplorer = () => {
 
   return (
     <>
-      <CssBaseline />
       <Header />
-      <StyledContainer maxWidth="lg">
-        <Typography component="h1" variant="h4" align="center" gutterBottom>
+      <Container style={{height: '85vh', paddingTop: '200px', width: '100%'}}>
+        <Typography component="h1" variant="h4" align="left" gutterBottom>
           Interact with Your API
+        </Typography>
+        <Typography component='h3' align='left' gutterBottom>
+          Enter Details and Send Request
         </Typography>
         <ApiForm
           apiUrl={apiUrl}
@@ -32,13 +34,19 @@ const ApiExplorer = () => {
           setApiUrl={setApiUrl}
           setApiKey={setApiKey}
           handleSendRequest={handleSendRequest}
-        />
+          />
+        <Typography component="h1" variant="h4" align="left" gutterBottom>
+          Results
+        </Typography>
         {results && (
           <Box component="pre" sx={{ overflowX: 'auto', whiteSpace: 'pre-wrap' }}>
             {results}
           </Box>
         )}
-      </StyledContainer>
+        <Typography component='h3' align='left' gutterBottom>
+          Your results will appear here after submitting.
+        </Typography>
+        </Container>
       <Footer />
     </>
   );
