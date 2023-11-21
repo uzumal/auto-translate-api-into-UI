@@ -1,8 +1,12 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+import dynamic from 'next/dynamic';
 import './globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
+
+// SSRを無効にしてParticlesBackgroundを動的にインポート
+const ParticlesBackground = dynamic(() => import('../components/modules/ParticlesBackground'), { ssr: false });
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -16,7 +20,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} animated-background`}>{children}</body>
+      <body>
+        <ParticlesBackground />
+        {children}
+      </body>
     </html>
   )
 }

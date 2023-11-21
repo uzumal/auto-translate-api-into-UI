@@ -5,6 +5,7 @@ import { Container, Typography, Box, CssBaseline } from '@mui/material';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import ApiForm from '../components/ApiForm';
+import ParticlesBackground from '../components/modules/ParticlesBackground';
 import { StyledContainer } from '../styles/styles';
 
 const ApiExplorer = () => {
