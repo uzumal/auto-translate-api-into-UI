@@ -11,7 +11,7 @@
     "opacity": 1
   },
   "backgroundMask": {
-    "composite": "source-over",
+    "composite": "destination-out",
     "cover": {
       "color": {
         "value": {
