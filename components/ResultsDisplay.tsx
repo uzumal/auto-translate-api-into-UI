@@ -1,6 +1,7 @@
 import React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import OpenAIQueryComponent from './OpenAIQueryComponent'
 
 type ResultDisplayProps = {
   results: string;
@@ -24,7 +25,7 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({ results }) => {
             }
           }}
         >
-          {results}
+        <OpenAIQueryComponent prompt={results} />
         </Box>
       ) : (
         <Typography component='h3' align='left' gutterBottom>
