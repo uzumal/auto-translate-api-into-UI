@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+import './globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -15,7 +16,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className} style={{ background: 'linear-gradient(90deg, rgb(22, 135, 237), rgb(20, 55, 90))'}}>{children}</body>
+      <body className={`${inter.className} animated-background`}>{children}</body>
     </html>
   )
 }

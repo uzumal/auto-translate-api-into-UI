@@ -19,7 +19,8 @@ const ApiExplorer = () => {
 
   return (
     <>
-      <Header />
+      {/* <CssBaseline /> */}
+      <Header/>
       <Container style={{height: '85vh', paddingTop: '200px', width: '100%'}}>
         <Typography component="h1" variant="h4" align="left" gutterBottom>
           Interact with Your API

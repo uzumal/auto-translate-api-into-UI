@@ -5,7 +5,8 @@ import { Typography } from '@mui/material';
 import ResponsiveAppBar from './modules/AppBar';
 
 const Header: React.FC = () => (
-  <ResponsiveAppBar />
+  <ResponsiveAppBar/>
+
 );
 
 export default Header;
