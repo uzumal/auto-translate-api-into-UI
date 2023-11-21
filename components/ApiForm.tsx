@@ -71,6 +71,7 @@ const ApiForm: React.FC<ApiFormProps> = ({
       />
     </Grid>
     <Grid item xs={4}>
+    <form onSubmit={handleSendRequest}>
       <Button
         type="submit"
         variant="contained"
@@ -88,6 +89,7 @@ const ApiForm: React.FC<ApiFormProps> = ({
       >
         {loading ? 'Sending...' : 'Send'}
       </Button>
+      </form>
     </Grid>
   </Grid>
 );

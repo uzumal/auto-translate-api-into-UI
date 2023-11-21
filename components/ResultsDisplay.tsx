@@ -1,21 +1,38 @@
-// components/ResultsDisplay.tsx
-'use client'
-import { Typography } from '@mui/material';
+import React from 'react';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 
-interface ResultsDisplayProps {
+type ResultDisplayProps = {
   results: string;
-}
+};
 
-const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ results }) => {
+const ResultDisplay: React.FC<ResultDisplayProps> = ({ results }) => {
   return (
     <div>
-      {results && (
-        <Typography variant="body1" component="p" gutterBottom>
+      {results ? (
+        <Box
+          component="pre"
+          sx={{
+            maxHeight: '300px',
+            overflowY: 'auto',
+            backgroundColor: 'rgba(255, 255, 255, 0.8)', // 背景を少し透明に
+            padding: '10px',
+            whiteSpace: 'pre-wrap',
+            borderRadius: '10px', // 角を丸くする
+            '::-webkit-scrollbar': {
+              width: '0px'
+            }
+          }}
+        >
           {results}
+        </Box>
+      ) : (
+        <Typography component='h3' align='left' gutterBottom>
+          Your results will appear here after submitting.
         </Typography>
       )}
     </div>
   );
 };
 
-export default ResultsDisplay;
+export default ResultDisplay;

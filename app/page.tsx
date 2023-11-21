@@ -1,12 +1,12 @@
 'use client'
 // pages/api-explorer.tsx
 import React, { useState } from 'react';
-import { Container, Typography, Box, CssBaseline } from '@mui/material';
+import { Container, Typography, Box } from '@mui/material';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import ApiForm from '../components/ApiForm';
-import ParticlesBackground from '../components/modules/ParticlesBackground';
-import { StyledContainer } from '../styles/styles';
+import ResultsDisplay from '../components/ResultsDisplay';
+import axios from 'axios';
 
 const ApiExplorer = () => {
   const [apiUrl, setApiUrl] = useState('');
@@ -14,9 +14,21 @@ const ApiExplorer = () => {
   const [results, setResults] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const handleSendRequest = async (event: React.FormEvent<HTMLFormElement>) => {
-    // ... 送信ロジック
-  };
+const handleSendRequest = async (event: React.FormEvent<HTMLFormElement>) => {
+  event.preventDefault();
+  setLoading(true);
+  try {
+    const response = await axios.get(apiUrl, {
+      headers: { 'Authorization': `Bearer ${apiKey}` }
+    });
+    setResults(JSON.stringify(response.data, null, 2));
+  } catch (error) {
+    console.error('Error fetching data: ', error);
+    setResults('Error fetching data');
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <>
@@ -46,17 +58,18 @@ const ApiExplorer = () => {
           setApiUrl={setApiUrl}
           setApiKey={setApiKey}
           handleSendRequest={handleSendRequest}
-          />
+        />
         <Typography component="h1" variant="h4" align="left" gutterBottom>
           Results
         </Typography>
-        {results && (
+        {/* {results && (
           <Box component="pre" sx={{ overflowX: 'auto', whiteSpace: 'pre-wrap' }}>
             {results}
           </Box>
-        )}
+        )} */}
+        <ResultsDisplay results={results} />
         <Typography component='h3' align='left' gutterBottom>
-          Your results will appear here after submitting.
+          {/* Your results will appear here after submitting. */}
         </Typography>
         </Container>
       <Footer />
