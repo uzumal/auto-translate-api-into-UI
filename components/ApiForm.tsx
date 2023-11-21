@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextField, Button } from '@mui/material';
+import { TextField, Button, Grid } from '@mui/material';
 import { CustomForm } from '../styles/styles';
 
 type ApiFormProps = {
@@ -19,38 +19,44 @@ const ApiForm: React.FC<ApiFormProps> = ({
   setApiKey,
   handleSendRequest,
 }) => (
-  <CustomForm onSubmit={handleSendRequest}>
-    <TextField
-      margin="normal"
-      required
-      fullWidth
-      id="api-url"
-      label="API URL"
-      name="api-url"
-      autoComplete="api-url"
-      autoFocus
-      onChange={(e) => setApiUrl(e.target.value)}
-    />
-    <TextField
-      margin="normal"
-      required
-      fullWidth
-      name="api-key"
-      label="API Key"
-      type="text"
-      id="api-key"
-      autoComplete="current-api-key"
-      onChange={(e) => setApiKey(e.target.value)}
-    />
-    <Button
-      type="submit"
-      variant="contained"
-      color="primary"
-      disabled={loading}
-    >
-      {loading ? 'Sending...' : 'Send'}
-    </Button>
-  </CustomForm>
+  <Grid container direction='row' justifyContent='center' alignItems='center' columnSpacing={'2px'} width={'100%'}>
+    <Grid item xs={4}>
+      <TextField
+        required
+        fullWidth
+        id="api-url"
+        label="Enter API URL"
+        name="api-url"
+        autoComplete="api-url"
+        autoFocus
+        onChange={(e) => setApiUrl(e.target.value)}
+      />
+    </Grid>
+    <Grid item xs={4}>
+      <TextField
+        required
+        fullWidth
+        name="api-key"
+        label="Enter API Key"
+        type="text"
+        id="api-key"
+        autoComplete="current-api-key"
+        onChange={(e) => setApiKey(e.target.value)}
+      />
+    </Grid>
+    <Grid item xs={4}>
+      <Button
+        type="submit"
+        variant="contained"
+        color="primary"
+        disabled={loading}
+        fullWidth
+        style={{height: '55px'}}
+      >
+        {loading ? 'Sending...' : 'Send'}
+      </Button>
+    </Grid>
+  </Grid>
 );
 
 export default ApiForm;
