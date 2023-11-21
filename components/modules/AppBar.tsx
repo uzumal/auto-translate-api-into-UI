@@ -11,8 +11,7 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
-
+import GitHubIcon from '@mui/icons-material/GitHub';
 // const pages = ['Products', 'Pricing', 'Blog'];
 // const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
@@ -39,15 +38,16 @@ function ResponsiveAppBar() {
   };
 
   return (
-    <AppBar position="static"　sx={{backgroundImage: 'linear-gradient(90deg, rgb(22, 135, 237), rgb(20, 55, 90))'}}>
+    <AppBar position="static"　sx={{backgroundImage: 'linear-gradient(90deg, rgb(22, 220, 237), #252A45)'}}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+          <GitHubIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
           <Typography
             variant="h6"
             noWrap
             component="a"
-            href="#app-bar-with-responsive-menu"
+            href="https://github.com/uzumal/auto-translate-api-into-UI"
+            target='_blank'
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -58,7 +58,7 @@ function ResponsiveAppBar() {
               textDecoration: 'none',
             }}
           >
-            LOGO
+            AUTO-API-TRANSLATOR
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -97,12 +97,13 @@ function ResponsiveAppBar() {
               ))} */}
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+          <GitHubIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
           <Typography
             variant="h5"
             noWrap
             component="a"
-            href="#app-bar-with-responsive-menu"
+            href="https://github.com/uzumal/auto-translate-api-into-UI"
+            target='_blank'
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
@@ -114,7 +115,7 @@ function ResponsiveAppBar() {
               textDecoration: 'none',
             }}
           >
-            LOGO
+            AUTO-API-TRANSLATOR
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {/* {pages.map((page) => (
@@ -131,7 +132,7 @@ function ResponsiveAppBar() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="cisco.com" src="/public/cisco.jpeg" />
+                <Avatar alt="cisco.com" src="./cisco1.png" />
               </IconButton>
             </Tooltip>
           </Box>

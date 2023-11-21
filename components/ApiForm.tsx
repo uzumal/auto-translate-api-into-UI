@@ -30,6 +30,19 @@ const ApiForm: React.FC<ApiFormProps> = ({
         autoComplete="api-url"
         autoFocus
         onChange={(e) => setApiUrl(e.target.value)}
+        sx={{
+          '& label.Mui-focused': {
+            color: '#4caf50', // 明るい緑色のフォーカス時の色
+          },
+          '& .MuiInput-underline:after': {
+            borderBottomColor: '#4caf50', // アンダーラインのフォーカス時の色
+          },
+          '& .MuiOutlinedInput-root': {
+            '&.Mui-focused fieldset': {
+              borderColor: '#4caf50', // アウトラインのフォーカス時の色
+            },
+          },
+        }}
       />
     </Grid>
     <Grid item xs={4}>
@@ -42,16 +55,36 @@ const ApiForm: React.FC<ApiFormProps> = ({
         id="api-key"
         autoComplete="current-api-key"
         onChange={(e) => setApiKey(e.target.value)}
+        sx={{
+          '& label.Mui-focused': {
+            color: '#4caf50', // 明るい緑色のフォーカス時の色
+          },
+          '& .MuiInput-underline:after': {
+            borderBottomColor: '#4caf50', // アンダーラインのフォーカス時の色
+          },
+          '& .MuiOutlinedInput-root': {
+            '&.Mui-focused fieldset': {
+              borderColor: '#4caf50', // アウトラインのフォーカス時の色
+            },
+          },
+        }}
       />
     </Grid>
     <Grid item xs={4}>
       <Button
         type="submit"
         variant="contained"
-        color="primary"
+        // color="primary"
         disabled={loading}
         fullWidth
-        style={{height: '55px'}}
+        style={{
+          height: '55px',
+          background: 'linear-gradient(45deg, #66bb6a 30%, #43a047 90%)', // 軽いグラデーション
+          color: '#1b5e20', // テキストの濃い緑色
+          textTransform: 'none',
+          fontSize: '16px',
+          fontWeight: 'bold',
+        }}
       >
         {loading ? 'Sending...' : 'Send'}
       </Button>

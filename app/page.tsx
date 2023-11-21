@@ -23,7 +23,17 @@ const ApiExplorer = () => {
       {/* <CssBaseline /> */}
       <Header/>
       <Container style={{height: '85vh', paddingTop: '200px', width: '100%'}}>
-        <Typography component="h1" variant="h4" align="left" gutterBottom>
+        <Typography component="h1" variant="h4" align="left"　
+        style={{
+          height: '55px',
+          background: 'linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet)', // 虹色のグラデーション
+          borderRadius: '20px',
+          textTransform: 'none',
+          fontWeight: 'bold',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          padding: '2px', // パディングを追加
+        }}gutterBottom>
           Interact with Your API
         </Typography>
         <Typography component='h3' align='left' gutterBottom>
