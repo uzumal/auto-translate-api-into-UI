@@ -42,6 +42,9 @@ const ApiForm: React.FC<ApiFormProps> = ({
               borderColor: '#4caf50', // アウトラインのフォーカス時の色
             },
           },
+          '& .MuiInputBase-input': {
+            color: '#33CCFF', // テキストの色
+          },
         }}
       />
     </Grid>
@@ -66,6 +69,9 @@ const ApiForm: React.FC<ApiFormProps> = ({
             '&.Mui-focused fieldset': {
               borderColor: '#4caf50', // アウトラインのフォーカス時の色
             },
+          },
+          '& .MuiInputBase-input': {
+            color: '#33CCFF', // テキストの色
           },
         }}
       />
