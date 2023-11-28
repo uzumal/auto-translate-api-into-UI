@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { Container, Typography, Box } from "@mui/material";
+import { Container, Typography, CircularProgress, Modal } from "@mui/material";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import ApiForm from "../components/ApiForm";
@@ -36,6 +36,19 @@ const ApiExplorer = () => {
     <>
       <Header />
       <Container style={{ height: "85vh", paddingTop: "200px", width: "100%" }}>
+        {loading && (
+          <Modal open>
+            <CircularProgress
+              size={100}
+              style={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+              }}
+            />
+          </Modal>
+        )}
         <Typography
           component="h1"
           variant="h4"
