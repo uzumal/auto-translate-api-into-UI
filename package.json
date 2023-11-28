@@ -19,6 +19,7 @@
     "next": "14.0.2",
     "react": "^18.2.0",
     "react-dom": "^18",
+    "react-jsx-parser": "^1.29.0",
     "react-tsparticles": "^2.12.2",
     "recharts": "^2.10.1",
     "tsparticles": "^2.12.0"

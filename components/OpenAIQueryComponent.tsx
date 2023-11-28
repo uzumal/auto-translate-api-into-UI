@@ -1,23 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Box from '@mui/material/Box';
+import JsxParser from 'react-jsx-parser';
 
-// ReflectCode コンポーネントの定義
-const ReflectCode = ({ code }:{code:string}) => {
-  // useRefの型をHTMLDivElementに指定
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (code && containerRef.current) {
-      const script = document.createElement('script');
-      script.textContent = code;
-      containerRef.current.appendChild(script);
-    }
-  }, [code]);
-
-  return <div ref={containerRef} />;
+const ReflectCode = ({ code }) => {
+  // 安全なコード解析と実行
+  return <JsxParser jsx={code} />;
 };
 
-const OpenAIQueryComponent = ({ prompt }:{prompt:string}) => {
+const OpenAIQueryComponent = ({ prompt }) => {
   const [response, setResponse] = useState('');
 
   useEffect(() => {
