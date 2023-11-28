@@ -1,6 +1,6 @@
-import React from 'react';
-import { TextField, Button, Grid } from '@mui/material';
-import { CustomForm } from '../styles/styles';
+import React from "react";
+import { TextField, Button, Grid } from "@mui/material";
+import { CustomForm } from "../styles/styles";
 
 type ApiFormProps = {
   apiUrl: string;
@@ -19,7 +19,14 @@ const ApiForm: React.FC<ApiFormProps> = ({
   setApiKey,
   handleSendRequest,
 }) => (
-  <Grid container direction='row' justifyContent='center' alignItems='center' columnSpacing={'2px'} width={'100%'}>
+  <Grid
+    container
+    direction="row"
+    justifyContent="center"
+    alignItems="center"
+    columnSpacing={"2px"}
+    width={"100%"}
+  >
     <Grid item xs={4}>
       <TextField
         required
@@ -31,19 +38,19 @@ const ApiForm: React.FC<ApiFormProps> = ({
         autoFocus
         onChange={(e) => setApiUrl(e.target.value)}
         sx={{
-          '& label.Mui-focused': {
-            color: '#4caf50', // 明るい緑色のフォーカス時の色
+          "& label.Mui-focused": {
+            color: "#4caf50", // 明るい緑色のフォーカス時の色
           },
-          '& .MuiInput-underline:after': {
-            borderBottomColor: '#4caf50', // アンダーラインのフォーカス時の色
+          "& .MuiInput-underline:after": {
+            borderBottomColor: "#4caf50", // アンダーラインのフォーカス時の色
           },
-          '& .MuiOutlinedInput-root': {
-            '&.Mui-focused fieldset': {
-              borderColor: '#4caf50', // アウトラインのフォーカス時の色
+          "& .MuiOutlinedInput-root": {
+            "&.Mui-focused fieldset": {
+              borderColor: "#4caf50", // アウトラインのフォーカス時の色
             },
           },
-          '& .MuiInputBase-input': {
-            color: '#33CCFF', // テキストの色
+          "& .MuiInputBase-input": {
+            color: "#33CCFF", // テキストの色
           },
         }}
       />
@@ -54,47 +61,46 @@ const ApiForm: React.FC<ApiFormProps> = ({
         fullWidth
         name="api-key"
         label="Enter API Key"
-        type="text"
+        type="password"
         id="api-key"
         autoComplete="current-api-key"
         onChange={(e) => setApiKey(e.target.value)}
         sx={{
-          '& label.Mui-focused': {
-            color: '#4caf50', // 明るい緑色のフォーカス時の色
+          "& label.Mui-focused": {
+            color: "#4caf50", // 明るい緑色のフォーカス時の色
           },
-          '& .MuiInput-underline:after': {
-            borderBottomColor: '#4caf50', // アンダーラインのフォーカス時の色
+          "& .MuiInput-underline:after": {
+            borderBottomColor: "#4caf50", // アンダーラインのフォーカス時の色
           },
-          '& .MuiOutlinedInput-root': {
-            '&.Mui-focused fieldset': {
-              borderColor: '#4caf50', // アウトラインのフォーカス時の色
+          "& .MuiOutlinedInput-root": {
+            "&.Mui-focused fieldset": {
+              borderColor: "#4caf50", // アウトラインのフォーカス時の色
             },
           },
-          '& .MuiInputBase-input': {
-            color: '#33CCFF', // テキストの色
+          "& .MuiInputBase-input": {
+            color: "#33CCFF", // テキストの色
           },
         }}
       />
     </Grid>
     <Grid item xs={4}>
-    <form onSubmit={handleSendRequest}>
-      <Button
-        type="submit"
-        variant="contained"
-        // color="primary"
-        disabled={loading}
-        fullWidth
-        style={{
-          height: '55px',
-          background: 'linear-gradient(45deg, #66bb6a 30%, #43a047 90%)', // 軽いグラデーション
-          color: '#1b5e20', // テキストの濃い緑色
-          textTransform: 'none',
-          fontSize: '16px',
-          fontWeight: 'bold',
-        }}
-      >
-        {loading ? 'Sending...' : 'Send'}
-      </Button>
+      <form onSubmit={handleSendRequest}>
+        <Button
+          type="submit"
+          variant="contained"
+          disabled={loading}
+          fullWidth
+          style={{
+            height: "55px",
+            background: "linear-gradient(45deg, #66bb6a 30%, #43a047 90%)", // 軽いグラデーション
+            color: "#1b5e20", // テキストの濃い緑色
+            textTransform: "none",
+            fontSize: "16px",
+            fontWeight: "bold",
+          }}
+        >
+          {loading ? "Sending..." : "Send"}
+        </Button>
       </form>
     </Grid>
   </Grid>

@@ -1,54 +1,61 @@
-'use client'
-// pages/api-explorer.tsx
-import React, { useState } from 'react';
-import { Container, Typography, Box } from '@mui/material';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import ApiForm from '../components/ApiForm';
-import ResultsDisplay from '../components/ResultsDisplay';
-import axios from 'axios';
+"use client";
+import React, { useState } from "react";
+import { Container, Typography, Box } from "@mui/material";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import ApiForm from "../components/ApiForm";
+import ResultsDisplay from "../components/ResultsDisplay";
+import axios from "axios";
 
 const ApiExplorer = () => {
-  const [apiUrl, setApiUrl] = useState('');
-  const [apiKey, setApiKey] = useState('');
-  const [results, setResults] = useState('');
+  const [apiUrl, setApiUrl] = useState("");
+  const [apiKey, setApiKey] = useState("");
+  const [results, setResults] = useState("");
   const [loading, setLoading] = useState(false);
 
-const handleSendRequest = async (event: React.FormEvent<HTMLFormElement>) => {
-  event.preventDefault();
-  setLoading(true);
-  try {
-    const response = await axios.get(apiUrl, {
-      headers: { 'Authorization': `Bearer ${apiKey}` }
-    });
-    setResults(JSON.stringify(response.data, null, 2));
-  } catch (error) {
-    console.error('Error fetching data: ', error);
-    setResults('Error fetching data');
-  } finally {
-    setLoading(false);
-  }
-};
+  const handleSendRequest = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setLoading(true);
+    try {
+      const response = await axios.get("/api/test", {
+        params: {
+          url: apiUrl,
+          apiKey,
+        },
+      });
+      setResults(JSON.stringify(response.data, null, 2));
+    } catch (error) {
+      console.error("Error fetching data: ", error);
+      setResults("Error fetching data");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <>
-      {/* <CssBaseline /> */}
-      <Header/>
-      <Container style={{height: '85vh', paddingTop: '200px', width: '100%'}}>
-        <Typography component="h1" variant="h4" align="left"　
-        style={{
-          height: '55px',
-          background: 'linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet)', // 虹色のグラデーション
-          borderRadius: '20px',
-          textTransform: 'none',
-          fontWeight: 'bold',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          padding: '2px', // パディングを追加
-        }}gutterBottom>
+      <Header />
+      <Container style={{ height: "85vh", paddingTop: "200px", width: "100%" }}>
+        <Typography
+          component="h1"
+          variant="h4"
+          align="left"
+          style={{
+            height: "55px",
+            background:
+              "linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet)", // 虹色のグラデーション
+            borderRadius: "20px",
+            textTransform: "none",
+            fontWeight: "bold",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            padding: "2px", // パディングを追加
+          }}
+          gutterBottom
+        >
           Interact with Your API
         </Typography>
-        <Typography component='h3' align='left' gutterBottom>
+        <Typography component="h3" align="left" gutterBottom>
           Enter Details and Send Request
         </Typography>
         <ApiForm
@@ -62,16 +69,11 @@ const handleSendRequest = async (event: React.FormEvent<HTMLFormElement>) => {
         <Typography component="h1" variant="h4" align="left" gutterBottom>
           Results
         </Typography>
-        {/* {results && (
-          <Box component="pre" sx={{ overflowX: 'auto', whiteSpace: 'pre-wrap' }}>
-            {results}
-          </Box>
-        )} */}
         <ResultsDisplay results={results} />
-        <Typography component='h3' align='left' gutterBottom>
+        <Typography component="h3" align="left" gutterBottom>
           {/* Your results will appear here after submitting. */}
         </Typography>
-        </Container>
+      </Container>
       <Footer />
     </>
   );
