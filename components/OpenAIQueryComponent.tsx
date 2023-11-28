@@ -1,7 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Box from '@mui/material/Box';
 
-const OpenAIQueryComponent = ({ prompt }) => {
+// ReflectCode コンポーネントの定義
+const ReflectCode = ({ code }:{code:string}) => {
+  // useRefの型をHTMLDivElementに指定
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (code && containerRef.current) {
+      const script = document.createElement('script');
+      script.textContent = code;
+      containerRef.current.appendChild(script);
+    }
+  }, [code]);
+
+  return <div ref={containerRef} />;
+};
+
+const OpenAIQueryComponent = ({ prompt }:{prompt:string}) => {
   const [response, setResponse] = useState('');
 
   useEffect(() => {
@@ -10,18 +26,18 @@ const OpenAIQueryComponent = ({ prompt }) => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${process.env.NEXT_PUBLIC_OPENAI_API_KEY}`, // 環境変数からAPIキーを取得
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_OPENAI_API_KEY}`,
         },
         body: JSON.stringify({
           prompt: prompt,
           max_tokens: 150,
         }),
-      })
+      })      
       .then((res) => res.json())
       .then((data) => {
-        // choices 配列が存在し、要素が含まれているか確認
         if (data.choices && data.choices.length > 0) {
-          setResponse(data.choices[0].text);
+          const code = data.choices[0].text.trim();
+          setResponse(code);
         } else {
           console.error('No choices returned from OpenAI');
         }
@@ -31,10 +47,8 @@ const OpenAIQueryComponent = ({ prompt }) => {
   }, [prompt]);
 
   return (
-    <Box
-      // ... スタイリング ...
-    >
-      {response}
+    <Box>
+      <ReflectCode code={response} />
     </Box>
   );
 };
