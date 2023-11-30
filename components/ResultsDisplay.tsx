@@ -1,3 +1,5 @@
+
+
 import React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -25,7 +27,7 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({ results }) => {
             }
           }}
         >
-        <OpenAIQueryComponent prompt={"Use Recharts to create a Next.js React component. The response should only be Next.js code. As we intend to use it as a single component, please make sure it fits in a single file. Generate code to draw a graph based on the following JSON data.: results"} />
+        <OpenAIQueryComponent prompt={"Create a Next.js React component using Recharts, please put the JSON content in an array and fit it into one component, one file. Generate code to draw a graph based on the following JSON data: " + results} />
         </Box>
       ) : (
         <Typography component='h3' align='left' gutterBottom>

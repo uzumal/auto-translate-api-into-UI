@@ -1,10 +1,8 @@
 import React, { useState, useEffect, FunctionComponent } from 'react';
 import Box from '@mui/material/Box';
-import { QrCodeScannerOutlined } from '@mui/icons-material';
 
 const OpenAIQueryComponent: FunctionComponent<{ prompt: string }> = ({ prompt }) => {
   const [code, setCode] = useState('');
-  const [DynamicComponent, setDynamicComponent] = useState<FunctionComponent | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,27 +21,10 @@ const OpenAIQueryComponent: FunctionComponent<{ prompt: string }> = ({ prompt })
         });
 
         const data = await response.json();
-        console.log("Data")
-        console.log(data)
+        console.log(data); // Log the data for debugging
         if (data.choices && data.choices.length > 0 && data.choices[0].text) {
           const fullText = data.choices[0].text.trim();
-          console.log("full" + fullText)
-          console.log('API response:', fullText); // Log the full response for debugging
-          const importIndex = fullText.indexOf("import");
-          const exportDefaultIndex = fullText.indexOf("export default", importIndex);
-
-          let codeSnippet;
-          if (importIndex >= 0 && exportDefaultIndex > importIndex) {
-            // Find the end of the line with 'export default'
-            const endOfLineIndex = fullText.indexOf('\n', exportDefaultIndex);
-            codeSnippet = endOfLineIndex >= 0 
-              ? fullText.substring(importIndex, endOfLineIndex + 1) 
-              : fullText.substring(importIndex, exportDefaultIndex + "export default".length);
-          } else {
-            codeSnippet = 'No valid code found.';
-          }
-          setCode(codeSnippet);
-          // console.log(codeSnippet)
+          setCode(fullText);
         } else {
           setCode('No code found.');
         }
@@ -52,6 +33,7 @@ const OpenAIQueryComponent: FunctionComponent<{ prompt: string }> = ({ prompt })
         setCode('Error loading code.');
       }
     };
+
     fetchData();
   }, [prompt]);
 
@@ -73,7 +55,7 @@ const OpenAIQueryComponent: FunctionComponent<{ prompt: string }> = ({ prompt })
 
   return (
     <Box sx={{ width: '100%', height: '400px', border: '1px solid #ccc', overflow: 'auto' }}>
-      {DynamicComponent ? <DynamicComponent /> : <div>Loading component...</div>}
+      <pre>{code}</pre> {/* Display the code for debugging */}
     </Box>
   );
 };
