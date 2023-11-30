@@ -25,7 +25,7 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({ results }) => {
             }
           }}
         >
-        <OpenAIQueryComponent prompt={"以下のJSONデータを使用してMaterial-UIでグラフを描画するNext.jsのReactコンポーネントのコードを作成してください。JSONデータ: results"} />
+        <OpenAIQueryComponent prompt={"Use Recharts to create a Next.js React component. The response should only be Next.js code. As we intend to use it as a single component, please make sure it fits in a single file. Generate code to draw a graph based on the following JSON data.: results"} />
         </Box>
       ) : (
         <Typography component='h3' align='left' gutterBottom>

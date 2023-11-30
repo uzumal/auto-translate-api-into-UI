@@ -1,6 +1,5 @@
 import React from 'react';
 import { TextField, Button, Grid } from '@mui/material';
-import { CustomForm } from '../styles/styles';
 
 type ApiFormProps = {
   apiUrl: string;
@@ -18,7 +17,15 @@ const ApiForm: React.FC<ApiFormProps> = ({
   setApiUrl,
   setApiKey,
   handleSendRequest,
-}) => (
+}) => {
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    if (!loading) {
+      handleSendRequest(event);
+    }
+  };
+
+  return (
   <Grid container direction='row' justifyContent='center' alignItems='center' columnSpacing={'2px'} width={'100%'}>
     <Grid item xs={4}>
       <TextField
@@ -77,27 +84,27 @@ const ApiForm: React.FC<ApiFormProps> = ({
       />
     </Grid>
     <Grid item xs={4}>
-    <form onSubmit={handleSendRequest}>
-      <Button
-        type="submit"
-        variant="contained"
-        // color="primary"
-        disabled={loading}
-        fullWidth
-        style={{
-          height: '55px',
-          background: 'linear-gradient(45deg, #66bb6a 30%, #43a047 90%)', // 軽いグラデーション
-          color: '#1b5e20', // テキストの濃い緑色
-          textTransform: 'none',
-          fontSize: '16px',
-          fontWeight: 'bold',
-        }}
-      >
-        {loading ? 'Sending...' : 'Send'}
-      </Button>
-      </form>
-    </Grid>
+        <form onSubmit={handleSubmit}>
+          <Button
+            type="submit"
+            variant="contained"
+            disabled={loading}
+            fullWidth
+            style={{
+              height: '55px',
+              background: 'linear-gradient(45deg, #66bb6a 30%, #43a047 90%)',
+              color: '#1b5e20',
+              textTransform: 'none',
+              fontSize: '16px',
+              fontWeight: 'bold',
+            }}
+          >
+            {loading ? 'Sending...' : 'Send'}
+          </Button>
+        </form>
+      </Grid>
   </Grid>
-);
+  );
+};
 
 export default ApiForm;
