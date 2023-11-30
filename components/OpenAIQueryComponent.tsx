@@ -1,24 +1,29 @@
-import React, { useState, useEffect, FunctionComponent } from 'react';
-import Box from '@mui/material/Box';
+import React, { useState, useEffect, FunctionComponent } from "react";
+import Box from "@mui/material/Box";
 
-const OpenAIQueryComponent: FunctionComponent<{ prompt: string }> = ({ prompt }) => {
-  const [code, setCode] = useState('');
+const OpenAIQueryComponent: FunctionComponent<{ prompt: string }> = ({
+  prompt,
+}) => {
+  const [code, setCode] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log('Making API call with prompt:', prompt);
-        const response = await fetch('https://api.openai.com/v1/engines/text-davinci-003/completions', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${process.env.NEXT_PUBLIC_OPENAI_API_KEY}`,
-          },
-          body: JSON.stringify({
-            prompt: prompt,
-            max_tokens: 450,
-          }),
-        });
+        console.log("Making API call with prompt:", prompt);
+        const response = await fetch(
+          "https://api.openai.com/v1/engines/text-davinci-003/completions",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${process.env.NEXT_PUBLIC_OPENAI_API_KEY}`,
+            },
+            body: JSON.stringify({
+              prompt: prompt,
+              max_tokens: 450,
+            }),
+          }
+        );
 
         const data = await response.json();
         console.log(data); // Log the data for debugging
@@ -26,11 +31,11 @@ const OpenAIQueryComponent: FunctionComponent<{ prompt: string }> = ({ prompt })
           const fullText = data.choices[0].text.trim();
           setCode(fullText);
         } else {
-          setCode('No code found.');
+          setCode("No code found.");
         }
       } catch (error) {
-        console.error('Error fetching data:', error);
-        setCode('Error loading code.');
+        console.error("Error fetching data:", error);
+        setCode("Error loading code.");
       }
     };
 
@@ -39,22 +44,29 @@ const OpenAIQueryComponent: FunctionComponent<{ prompt: string }> = ({ prompt })
 
   useEffect(() => {
     if (!code) return;
-  
-    const iframe = document.createElement('iframe');
-    iframe.style.width = '100%';
-    iframe.style.height = '400px';
+
+    const iframe = document.createElement("iframe");
+    iframe.style.width = "100%";
+    iframe.style.height = "400px";
     document.body.appendChild(iframe);
-  
-    const blob = new Blob([code], { type: 'text/html' });
+
+    const blob = new Blob([code], { type: "text/html" });
     iframe.src = URL.createObjectURL(blob);
-  
+
     return () => {
       document.body.removeChild(iframe);
     };
   }, [code]);
 
   return (
-    <Box sx={{ width: '100%', height: '400px', border: '1px solid #ccc', overflow: 'auto' }}>
+    <Box
+      sx={{
+        width: "100%",
+        height: "400px",
+        border: "1px solid #ccc",
+        overflow: "auto",
+      }}
+    >
       <pre>{code}</pre> {/* Display the code for debugging */}
     </Box>
   );
