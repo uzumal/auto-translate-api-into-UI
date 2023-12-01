@@ -27,7 +27,7 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({ results }) => {
         >
           <OpenAIQueryComponent
             prompt={
-              "Create a Next.js React component using Recharts, please put the JSON content in an array and fit it into one component, one file. Generate code to draw a graph based on the following JSON data: " +
+              "Create code for an HTML page that dynamically visualises the following JSON data. The code should include HTML, CSS and JavaScript; if the JSON values are a mixture of text and numbers, represent them in a tabular format; if they are numbers only, use Chart.js or a similar library to analyse the data if they are comparable values and select the most appropriate type of chart (bar, line, pie, etc.), and if the values are not comparable, then represent them in tabular format. For non-numeric data, create HTML tables. Graphs and tables should be interactive and visually appealing with a clear and professional design. Provide all necessary code snippets that can be embedded directly into the HTML page to display the graphs and tables.JSON data:" +
               results
             }
           />
