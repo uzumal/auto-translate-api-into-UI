@@ -59,7 +59,7 @@ const OpenAIQueryComponent: FunctionComponent<{ prompt: string }> = ({
     };
   }, [code]);
 
-  const handleIframeLoad = (event) => {
+  const handleIframeLoad = (event: any) => {
     const iframe = event.target;
     try {
       const body = iframe.contentWindow.document.body;
