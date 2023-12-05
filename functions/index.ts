@@ -1,11 +1,11 @@
 const { https } = require("firebase-functions");
 const { default: next } = require("next");
 
-const isDev = process.env.NODE_ENV !== "production";
-const nextjsDistDir = require("./next.config.js").distDir;
+// const isDev = process.env.NODE_ENV !== "production";
+const nextjsDistDir = require("../next.config").distDir;
 
 const nextjsServer = next({
-  dev: isDev,
+  dev: false,
   conf: {
     distDir: nextjsDistDir,
   },
