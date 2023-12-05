@@ -26,7 +26,7 @@
     "rewrites": [
       {
         "source": "**",
-        "destination": "/index.html"
+        "destination": "/server/app/index.html"
       }
     ]
   }
