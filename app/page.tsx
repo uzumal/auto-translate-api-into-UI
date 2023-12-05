@@ -1,17 +1,22 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useRouter } from 'next/navigation';
 import { Container, Typography, CircularProgress, Modal } from "@mui/material";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import ApiForm from "../components/ApiForm";
 import ResultsDisplay from "../components/ResultsDisplay";
 import axios from "axios";
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth } from '../firebase/firebase';
 
 const ApiExplorer = () => {
   const [apiUrl, setApiUrl] = useState("");
   const [apiKey, setApiKey] = useState("");
   const [results, setResults] = useState("");
   const [loading, setLoading] = useState(false);
+  const [user, authentication] = useAuthState(auth);
+  const router = useRouter();
 
   const handleSendRequest = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -31,6 +36,12 @@ const ApiExplorer = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (!authentication && !user) {
+      router.push('/auth'); // ユーザーが未認証の場合にリダイレクト
+    }
+  }, [user, authentication, router]);
 
   return (
     <>
