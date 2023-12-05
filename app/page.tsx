@@ -7,9 +7,9 @@ import Footer from "../components/Footer";
 import ApiForm from "../components/ApiForm";
 import ResultsDisplay from "../components/ResultsDisplay";
 import axios from "axios";
-// import { useAuthState } from "react-firebase-hooks/auth";
-import { authPromise } from "../firebase/firebase";
+import { authPromise, firestore } from "../firebase/firebase";
 import { User } from "firebase/auth";
+import { collection, doc, getDoc, setDoc } from "firebase/firestore";
 
 const ApiExplorer = () => {
   const [apiUrl, setApiUrl] = useState("");
@@ -28,7 +28,35 @@ const ApiExplorer = () => {
   const router = useRouter();
 
   const handleSendRequest = async (event: React.FormEvent<HTMLFormElement>) => {
+    if (!user) return;
     event.preventDefault();
+    const db = firestore;
+    const col = collection(db, "users");
+    // ユーザードキュメントの存在確認
+    const docRef = doc(db, "users", user.uid);
+    const userInfo = await getDoc(docRef);
+    const today = new Date();
+    const todayString =
+      today.getFullYear() + "-" + today.getMonth() + "-" + today.getDate();
+    // そもそもユーザーが存在していなければ、ユーザードキュメント作成
+    if (!userInfo.exists()) {
+      await setDoc(doc(col, user.uid), { [todayString]: { count: 0 } });
+    } else {
+      const data = userInfo.data();
+      if (!data[todayString]) {
+        await setDoc(doc(col, user.uid), { [todayString]: { count: 0 } });
+      }
+    }
+    // ユーザーデータ更新
+    const currentUserInfo = await getDoc(docRef);
+    const data = currentUserInfo.data();
+    console.log(data);
+    if (data) {
+      await setDoc(doc(col, user.uid), {
+        [todayString]: { count: data[todayString].count + 1 },
+      });
+    }
+
     setLoading(true);
     try {
       const response = await axios.get("/api/test", {
