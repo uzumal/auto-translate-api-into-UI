@@ -148,13 +148,6 @@ function ResponsiveAppBar() {
               router.push("/auth");
             }}
           ></LogoutOutlined>
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Go to our Website">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="cisco.com" src="./cisco1.png" />
-              </IconButton>
-            </Tooltip>
-          </Box>
         </Toolbar>
       </Container>
     </AppBar>
