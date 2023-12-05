@@ -17,7 +17,7 @@
   ],
   "hosting": {
     "site": "auto-api-translator",
-    "public": "dist/server/app",
+    "public": "dist",
     "ignore": [
       "firebase.json",
       "**/.*",
