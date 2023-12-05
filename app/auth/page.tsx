@@ -1,24 +1,33 @@
-'use client'
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth } from '../../firebase/firebase';
-import SignIn from '../../components/SignIn';
-import SignUp from '../../components/SignUp';
+"use client";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { auth, authPromise } from "../../firebase/firebase";
+import dynamic from "next/dynamic";
+const SignIn = dynamic(() => import("../../components/SignIn"), { ssr: false });
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
+import { User } from "@firebase/auth";
 
 const AuthPage = () => {
-  const [user, loading] = useAuthState(auth);
   const router = useRouter();
+  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState<User>();
+  authPromise.then((auth) => {
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        setUser(user);
+      }
+      setLoading(false);
+    });
+  });
 
   useEffect(() => {
     if (!loading && user) {
-      router.push('/page'); // ユーザーが認証済みの場合にリダイレクト
+      router.push("/"); // ユーザーが認証済みの場合にリダイレクト
     }
   }, [user, loading, router]);
 
-  if (loading) {
+  if (loading || user) {
     return <div>Loading...</div>;
   }
 
@@ -27,11 +36,9 @@ const AuthPage = () => {
       <Header />
       <h1>Auth Page</h1>
       <SignIn />
-      <SignUp />
       <Footer />
     </div>
   );
 };
 
 export default AuthPage;
-

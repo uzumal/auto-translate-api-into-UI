@@ -1,24 +1,22 @@
-'use client'
-import React, { useEffect } from 'react';
-import firebase from 'firebase/compat/app'; // Firebase v9 以降の場合は 'firebase/app' を使用
-import 'firebaseui/dist/firebaseui.css';
-import * as firebaseui from 'firebaseui';
-import { auth } from '../firebase/firebase'; // firebase.js からのインポート
+"use client";
+import React, { useEffect } from "react";
+import firebase from "firebase/compat/app"; // Firebase v9 以降の場合は 'firebase/app' を使用
+import "firebaseui/dist/firebaseui.css";
+import * as firebaseui from "firebaseui";
+import { auth } from "../firebase/firebase"; // firebase.js からのインポート
 
 const SignIn = () => {
   useEffect(() => {
     // FirebaseUIの設定
     const uiConfig = {
-      signInFlow: 'popup',
-      signInOptions: [
-        firebase.auth.EmailAuthProvider.PROVIDER_ID,
-        firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-      ],
-      signInSuccessUrl: '/page.tsx', // ログイン成功後のリダイレクト先
+      signInFlow: "popup",
+      signInOptions: [firebase.auth.GoogleAuthProvider.PROVIDER_ID],
+      signInSuccessUrl: "/", // ログイン成功後のリダイレクト先
     };
 
-    const ui = new firebaseui.auth.AuthUI(auth);
-    ui.start('#firebaseui-auth-container', uiConfig);
+    const ui =
+      firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(auth);
+    ui.start("#firebaseui-auth-container", uiConfig);
 
     // クリーンアップ関数
     return () => {
@@ -38,4 +36,3 @@ const SignIn = () => {
 };
 
 export default SignIn;
-
