@@ -5,21 +5,24 @@ body, html {
     padding: 0;
     height: 100%;
     /* overflow: hidden; */
+}
+
+@keyframes movePattern {
+  0% {
+    background-position: 0 0;
   }
-  
-  @keyframes movePattern {
-    0% { background-position: 0 0; }
-    100% { background-position: 50px 50px; }
+  100% {
+    background-position: 50px 50px;
   }
-  
-  .animated-background {
-    background-image: repeating-linear-gradient(
-      45deg,
-      #ccc,
-      #ccc 10px,
-      #eee 10px,
-      #eee 20px
-    );
-    animation: movePattern 5s linear infinite;
-  }
-  
+}
+
+.animated-background {
+  background-image: repeating-linear-gradient(
+    45deg,
+    #ccc,
+    #ccc 10px,
+    #eee 10px,
+    #eee 20px
+  );
+  animation: movePattern 5s linear infinite;
+}

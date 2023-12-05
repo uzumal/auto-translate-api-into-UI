@@ -1,0 +1,2 @@
+export const PRE_TEXT =
+  "Please create a UI based on the following JSON data using only HTML, CSS, and JavaScript. Also, derive how the values should be displayed from the item names in the JSON data. Please also display related icons, images, graphs, etc. Use Material UI for the CSS UI framework. Also, be sure to put each relevant item in the JSON data on a card in the Material UI; do not use PHP. Finally, output HTML code using the JSON data values in that UI. The JSON data to be used as a reference is here: \n";

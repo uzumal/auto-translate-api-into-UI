@@ -9,7 +9,7 @@ type ResultDisplayProps = {
 
 const ResultDisplay: React.FC<ResultDisplayProps> = ({ results }) => {
   return (
-    <div style={{paddingBottom : "40px"}}>
+    <div style={{ paddingBottom: "40px" }}>
       {results ? (
         <div
           style={{
@@ -24,11 +24,7 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({ results }) => {
             // },
           }}
         >
-          <OpenAIQueryComponent
-            prompt={
-              results
-            }
-          />
+          <OpenAIQueryComponent prompt={results} />
         </div>
       ) : (
         <Typography component="h3" align="left" gutterBottom>

@@ -1,32 +1,41 @@
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
-import GitHubIcon from '@mui/icons-material/GitHub';
-// const pages = ['Products', 'Pricing', 'Blog'];
-// const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+"use client";
+import * as React from "react";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import Menu from "@mui/material/Menu";
+import MenuIcon from "@mui/icons-material/Menu";
+import Container from "@mui/material/Container";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import Tooltip from "@mui/material/Tooltip";
+import MenuItem from "@mui/material/MenuItem";
+import GitHubIcon from "@mui/icons-material/GitHub";
+import { SvgIcon } from "@mui/material";
+import { LogoutOutlined } from "@mui/icons-material";
+import { logout } from "@/firebase/firebase";
+import { useRouter } from "next/navigation";
 
 function ResponsiveAppBar() {
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+  const router = useRouter();
+
+  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
+    null
+  );
+  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
+    null
+  );
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    const ciscoURL = 'https://www.cisco.com/';
+    const ciscoURL = "https://www.cisco.com/";
 
     // 新しいウィンドウまたはタブでCisco.comを開く
-    window.open(ciscoURL, '_blank');
+    window.open(ciscoURL, "_blank");
   };
 
   const handleCloseNavMenu = () => {
@@ -38,30 +47,35 @@ function ResponsiveAppBar() {
   };
 
   return (
-    <AppBar position="static"　sx={{backgroundImage: 'linear-gradient(90deg, rgb(22, 220, 237), #252A45)'}}>
+    <AppBar
+      position="static"
+      sx={{
+        backgroundImage: "linear-gradient(90deg, rgb(22, 220, 237), #252A45)",
+      }}
+    >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <GitHubIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+          <GitHubIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
           <Typography
             variant="h6"
             noWrap
             component="a"
             href="https://github.com/uzumal/auto-translate-api-into-UI"
-            target='_blank'
+            target="_blank"
             sx={{
               mr: 2,
-              display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
+              display: { xs: "none", md: "flex" },
+              fontFamily: "monospace",
               fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
+              letterSpacing: ".3rem",
+              color: "inherit",
+              textDecoration: "none",
             }}
           >
             AUTO-API-TRANSLATOR
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -76,18 +90,18 @@ function ResponsiveAppBar() {
               id="menu-appbar"
               anchorEl={anchorElNav}
               anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
+                vertical: "bottom",
+                horizontal: "left",
               }}
               keepMounted
               transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
+                vertical: "top",
+                horizontal: "left",
               }}
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               sx={{
-                display: { xs: 'block', md: 'none' },
+                display: { xs: "block", md: "none" },
               }}
             >
               {/* {pages.map((page) => (
@@ -97,27 +111,27 @@ function ResponsiveAppBar() {
               ))} */}
             </Menu>
           </Box>
-          <GitHubIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+          <GitHubIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
           <Typography
             variant="h5"
             noWrap
             component="a"
             href="https://github.com/uzumal/auto-translate-api-into-UI"
-            target='_blank'
+            target="_blank"
             sx={{
               mr: 2,
-              display: { xs: 'flex', md: 'none' },
+              display: { xs: "flex", md: "none" },
               flexGrow: 1,
-              fontFamily: 'monospace',
+              fontFamily: "monospace",
               fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
+              letterSpacing: ".3rem",
+              color: "inherit",
+              textDecoration: "none",
             }}
           >
             AUTO-API-TRANSLATOR
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {/* {pages.map((page) => (
               <Button
                 key={page}
@@ -128,7 +142,12 @@ function ResponsiveAppBar() {
               </Button>
             ))} */}
           </Box>
-
+          <LogoutOutlined
+            onClick={async () => {
+              await logout();
+              router.push("/auth");
+            }}
+          ></LogoutOutlined>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Go to our Website">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>

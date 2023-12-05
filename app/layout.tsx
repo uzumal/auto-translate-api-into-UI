@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import dynamic from "next/dynamic";
 import "./globals.css";
 import ParticlesBackground from "@/components/modules/ParticlesBackground";
+import { auth } from "@/firebase/firebase";
 
 // SSRを無効にしてParticlesBackgroundを動的にインポート
 // const ParticlesBackground = dynamic(() => import('../components/modules/ParticlesBackground'), { ssr: false });
