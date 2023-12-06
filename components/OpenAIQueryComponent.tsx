@@ -5,6 +5,7 @@ import React, {
   SyntheticEvent,
 } from "react";
 import { PRE_TEXT } from "@/constants/openai";
+import axios from "axios";
 
 const OpenAIQueryComponent: FunctionComponent<{ prompt: string }> = ({
   prompt,
@@ -18,17 +19,14 @@ const OpenAIQueryComponent: FunctionComponent<{ prompt: string }> = ({
         try {
             console.log("Making API call with prompt:", prompt);
 
-            const response = await fetch("https://us-central1-api-translator-e11f5.cloudfunctions.net/callOpenAI", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ prompt: PRE_TEXT + prompt, max_tokens: 1500 }) // example max_tokens value
-            });
-
-            const data = await response.json();
-
-            console.log("API Response Data:", data); // Log the data for debugging
+            const response = await axios.post("https://us-central1-api-translator-e11f5.cloudfunctions.net/callOpenAI", {
+              prompt: PRE_TEXT + prompt,
+              max_tokens: 1500 // example max_tokens value
+          });
+      
+          const data = response.data;
+      
+          console.log("API Response Data:", data); // Log the data for debugging
 
             if (data.choices && data.choices.length > 0 && data.choices[0].text) {
                 const fullText = data.choices[0].text.trim();
