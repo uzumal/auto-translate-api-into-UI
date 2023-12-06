@@ -17,7 +17,8 @@
   ],
   "hosting": {
     "site": "auto-api-translator",
-    "public": ".next/standalone",
+    "public": "out",
+    "cleanUrls": true,
     "ignore": [
       "firebase.json",
       "**/.*",
@@ -26,7 +27,7 @@
     "rewrites": [
       {
         "source": "**",
-        "function": "/index.html"
+        "destination": "/index.html"
       }
     ]
   }

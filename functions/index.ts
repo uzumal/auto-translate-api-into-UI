@@ -36,3 +36,31 @@ export const apiTest = functions.https.onRequest((req, res) => {
     }
   });
 });
+
+export const callOpenAI = functions.https.onRequest((request, response) => {
+  corsMiddleware(request, response, async () => {
+    response.set("Access-Control-Allow-Origin", "*");
+      try {
+          const { prompt, max_tokens } = request.body;
+
+          const openAIResponse = await axios({
+              method: "post",
+              url: "https://api.openai.com/v1/engines/text-davinci-003/completions",
+              headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${functions.config().openai.key}`,
+              },
+              data: {
+                  prompt: prompt,
+                  max_tokens: max_tokens,
+              },
+          });
+
+          response.status(200).send(openAIResponse.data);
+          console.log("res" + response)
+      } catch (error) {
+          console.error('Error calling OpenAI:', error);
+          response.status(500).send({ error: 'Error calling OpenAI API' });
+      }
+  });
+});

@@ -15,39 +15,37 @@ const OpenAIQueryComponent: FunctionComponent<{ prompt: string }> = ({
   useEffect(() => {
     if (!prompt) return;
     const fetchData = async () => {
-      try {
-        console.log("Making API call with prompt:", PRE_TEXT + prompt);
-        const response = await fetch(
-          "https://api.openai.com/v1/engines/text-davinci-003/completions",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${process.env.NEXT_PUBLIC_OPENAI_API_KEY}`,
-            },
-            body: JSON.stringify({
-              prompt: PRE_TEXT + prompt,
-              max_tokens: 1500,
-            }),
-          }
-        );
+        try {
+            console.log("Making API call with prompt:", prompt);
 
-        const data = await response.json();
-        console.log(data); // Log the data for debugging
-        if (data.choices && data.choices.length > 0 && data.choices[0].text) {
-          const fullText = data.choices[0].text.trim();
-          setCode(fullText);
-          console.log(fullText);
-        } else {
-          setCode("No code found.");
+            const response = await fetch("https://us-central1-api-translator-e11f5.cloudfunctions.net/callOpenAI", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ prompt: PRE_TEXT + prompt, max_tokens: 1500 }) // example max_tokens value
+            });
+
+            const data = await response.json();
+
+            console.log("API Response Data:", data); // Log the data for debugging
+
+            if (data.choices && data.choices.length > 0 && data.choices[0].text) {
+                const fullText = data.choices[0].text.trim();
+                setCode(fullText);
+                console.log("Received Text:", fullText);
+            } else {
+                setCode("No code found.");
+            }
+        } catch (error) {
+            console.error("Error fetching data:", error);
+            setCode("Error loading code.");
         }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        setCode("Error loading code.");
-      }
     };
+
     fetchData();
-  }, [prompt]);
+}, [prompt]); // Depend on prompt
+
 
   useEffect(() => {
     if (!code) {
