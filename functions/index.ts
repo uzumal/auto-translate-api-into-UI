@@ -55,9 +55,9 @@ export const callOpenAI = functions.https.onRequest((request, response) => {
                   max_tokens: max_tokens,
               },
           });
-
+          console.log('OpenAI Key:', functions.config().openai.key);
           response.status(200).send(openAIResponse.data);
-          console.log("res" + response)
+          console.log("res" + openAIResponse.data)
       } catch (error) {
           console.error('Error calling OpenAI:', error);
           response.status(500).send({ error: 'Error calling OpenAI API' });
