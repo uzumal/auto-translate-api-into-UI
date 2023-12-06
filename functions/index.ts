@@ -48,7 +48,7 @@ export const callOpenAI = functions.https.onRequest((request, response) => {
               url: "https://api.openai.com/v1/engines/text-davinci-003/completions",
               headers: {
                   "Content-Type": "application/json",
-                  Authorization: `Bearer ${functions.config().openai.key}`,
+                  Authorization: `Bearer ${process.env.NEXT_PUBLIC_OPENAI_API_KEY}`,
               },
               data: {
                   prompt: prompt,
