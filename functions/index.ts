@@ -40,9 +40,11 @@ export const apiTest = functions.https.onRequest((req, res) => {
 export const callOpenAI = functions.https.onRequest((request, response) => {
   corsMiddleware(request, response, async () => {
     response.set("Access-Control-Allow-Origin", "*");
-      try {
-          const { prompt, max_tokens } = request.body;
-
+    try {
+      const { prompt, max_tokens } = request.body;
+      console.log("prompt" + prompt)
+      console.log("token" + max_tokens)
+      
           const openAIResponse = await axios({
               method: "post",
               url: "https://api.openai.com/v1/engines/text-davinci-003/completions",
@@ -55,8 +57,7 @@ export const callOpenAI = functions.https.onRequest((request, response) => {
                   max_tokens: max_tokens,
               },
           });
-          console.log('OpenAI Key:', functions.config().openai.key);
-          response.status(200).send(openAIResponse.data);
+          response.status(200).json(openAIResponse.data);
           console.log("res" + openAIResponse.data)
       } catch (error) {
           console.error('Error calling OpenAI:', error);
