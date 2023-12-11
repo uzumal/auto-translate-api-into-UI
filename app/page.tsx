@@ -16,7 +16,6 @@ import ResultsDisplay from "../components/ResultsDisplay";
 import { authPromise, firestore, functions } from "../firebase/firebase";
 import { User } from "firebase/auth";
 import { collection, doc, getDoc, setDoc } from "firebase/firestore";
-import firebase from "firebase/app";
 import { httpsCallable } from "firebase/functions";
 
 const ApiExplorer = () => {
@@ -24,6 +23,7 @@ const ApiExplorer = () => {
   const [apiKey, setApiKey] = useState("");
   const [results, setResults] = useState("");
   const [loading, setLoading] = useState(true);
+  const [isCallingApi, setIsCallingApi] = useState(false);
   const [user, setUser] = useState<User>();
   const [isMaxSubmitCount, setIsMaxSubmitCount] = useState<boolean>(false);
   const [snackbarContent, setSnackbarContent] = useState<string>("");
@@ -102,7 +102,7 @@ const ApiExplorer = () => {
     // ボタンを押す回数更新
     await updateUserInfo();
 
-    setLoading(true);
+    setIsCallingApi(true);
     try {
       const onCallApiTest = httpsCallable(functions, "apiTest");
       const response = await onCallApiTest({ url: apiUrl, apiKey });
@@ -111,7 +111,6 @@ const ApiExplorer = () => {
       console.error("Error fetching data: ", error);
       setResults("Error fetching data");
     } finally {
-      setLoading(false);
     }
   };
 
@@ -158,7 +157,7 @@ const ApiExplorer = () => {
         </Alert>
       </Snackbar>
       <Container style={{ height: "85vh", paddingTop: "200px", width: "100%" }}>
-        {loading && (
+        {(loading || isCallingApi) && (
           <Modal open>
             <CircularProgress
               size={100}
@@ -205,7 +204,7 @@ const ApiExplorer = () => {
         <Typography component="h1" variant="h4" align="left" gutterBottom>
           Results
         </Typography>
-        <ResultsDisplay results={results} />
+        <ResultsDisplay results={results} setIsCallingApi={setIsCallingApi} />
         <Typography component="h3" align="left" gutterBottom>
           {/* Your results will appear here after submitting. */}
         </Typography>
