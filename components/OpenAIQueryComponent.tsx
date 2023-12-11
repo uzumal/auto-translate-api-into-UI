@@ -6,6 +6,8 @@ import React, {
 } from "react";
 import { PRE_TEXT } from "@/constants/openai";
 import axios from "axios";
+import { httpsCallable } from "firebase/functions";
+import { functions } from "@/firebase/firebase";
 
 const OpenAIQueryComponent: FunctionComponent<{ prompt: string }> = ({
   prompt,
@@ -16,34 +18,30 @@ const OpenAIQueryComponent: FunctionComponent<{ prompt: string }> = ({
   useEffect(() => {
     if (!prompt) return;
     const fetchData = async () => {
-        try {
-            console.log("Making API call with prompt:", prompt);
-
-            const response = await axios.post("https://us-central1-api-translator-e11f5.cloudfunctions.net/callOpenAI", {
-              prompt: PRE_TEXT + prompt,
-              max_tokens: 1000 // example max_tokens value
-          });
-      
-          const data = response.data;
-      
-          console.log("API Response Data:", data); // Log the data for debugging
-
-            if (data.choices && data.choices.length > 0 && data.choices[0].text) {
-                const fullText = data.choices[0].text.trim();
-                setCode(fullText);
-                console.log("Received Text:", fullText);
-            } else {
-                setCode("No code found.");
-            }
-        } catch (error) {
-            console.error("Error fetching data:", error);
-            setCode("Error loading code.");
+      try {
+        console.log("Making API call with prompt:", prompt);
+        const onCallOpenAI = httpsCallable(functions, "callOpenAI");
+        const response = await onCallOpenAI({
+          prompt: PRE_TEXT + prompt,
+          max_tokens: 1000,
+        });
+        const data: any = response.data;
+        console.log("API Response Data:", data); // Log the data for debugging
+        if (data.choices && data.choices.length > 0 && data.choices[0].text) {
+          const fullText = data.choices[0].text.trim();
+          setCode(fullText);
+          console.log("Received Text:", fullText);
+        } else {
+          setCode("No code found.");
         }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setCode("Error loading code.");
+      }
     };
 
     fetchData();
-}, [prompt]); // Depend on prompt
-
+  }, [prompt]); // Depend on prompt
 
   useEffect(() => {
     if (!code) {

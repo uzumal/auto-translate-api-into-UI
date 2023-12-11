@@ -2,6 +2,7 @@ import { initializeApp, getApps, FirebaseApp } from "firebase/app";
 import { getAnalytics, isSupported } from "@firebase/analytics";
 import { Auth, getAuth, signOut } from "firebase/auth";
 import { getFirestore, Firestore } from "firebase/firestore";
+import { getFunctions, Functions } from "firebase/functions";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -22,11 +23,13 @@ const firebaseConfig = {
 let firebaseApp: FirebaseApp;
 let auth: Auth;
 let firestore: Firestore;
+let functions: Functions;
 
 if (typeof window !== "undefined" && !getApps().length) {
   firebaseApp = initializeApp(firebaseConfig);
   auth = getAuth();
   firestore = getFirestore(firebaseApp);
+  functions = getFunctions();
 }
 
 isSupported().then((supported) => {
@@ -40,7 +43,7 @@ export const logout = () => {
   return signOut(auth);
 };
 
-export { firebaseApp, auth, firestore };
+export { firebaseApp, auth, firestore, functions };
 
 export const authPromise = new Promise<Auth>((resolve, reject) => {
   if (auth) {
