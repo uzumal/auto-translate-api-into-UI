@@ -1,7 +1,14 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Container, Typography, CircularProgress, Modal } from "@mui/material";
+import {
+  Container,
+  Typography,
+  CircularProgress,
+  Modal,
+  Snackbar,
+  Alert,
+} from "@mui/material";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import ApiForm from "../components/ApiForm";
@@ -17,6 +24,10 @@ const ApiExplorer = () => {
   const [results, setResults] = useState("");
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<User>();
+  const [isMaxSubmitCount, setIsMaxSubmitCount] = useState<boolean>(false);
+  const [snackbarContent, setSnackbarContent] = useState<string>("");
+  const maxCallCount = 10;
+
   authPromise.then((auth) => {
     auth.onAuthStateChanged((user) => {
       if (user) {
@@ -27,44 +38,77 @@ const ApiExplorer = () => {
   });
   const router = useRouter();
 
-  const handleSendRequest = async (event: React.FormEvent<HTMLFormElement>) => {
+  // 今日の日付を取得
+  const getTodayString = (): string => {
+    const today = new Date();
+    return `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+  };
+
+  // ユーザーデータの更新
+  const updateUserInfo = async () => {
     if (!user) return;
-    event.preventDefault();
+    // ユーザードキュメントの存在確認
     const db = firestore;
     const col = collection(db, "users");
-    // ユーザードキュメントの存在確認
     const docRef = doc(db, "users", user.uid);
     const userInfo = await getDoc(docRef);
-    const today = new Date();
-    const todayString =
-      today.getFullYear() + "-" + today.getMonth() + "-" + today.getDate();
-    // そもそもユーザーが存在していなければ、ユーザードキュメント作成
-    if (!userInfo.exists()) {
+    const todayString = getTodayString();
+
+    // そもそもユーザーが存在していなければ、ユーザードキュメントから作成
+    if (!userInfo.exists() || !userInfo.data()[todayString]) {
       await setDoc(doc(col, user.uid), { [todayString]: { count: 0 } });
-    } else {
-      const data = userInfo.data();
-      if (!data[todayString]) {
-        await setDoc(doc(col, user.uid), { [todayString]: { count: 0 } });
-      }
     }
+
     // ユーザーデータ更新
     const currentUserInfo = await getDoc(docRef);
     const data = currentUserInfo.data();
-    console.log(data);
     if (data) {
       await setDoc(doc(col, user.uid), {
         [todayString]: { count: data[todayString].count + 1 },
       });
     }
+  };
+
+  // まだOpenAIを呼べるか確認
+  const canSubmitButton = async () => {
+    if (!user) return;
+
+    // ユーザードキュメントの存在確認
+    const db = firestore;
+    const docRef = doc(db, "users", user.uid);
+    const todayString = getTodayString();
+    const userInfo = await getDoc(docRef);
+    if (userInfo.exists() && userInfo.data()[todayString] >= maxCallCount) {
+      return false;
+    }
+    return true;
+  };
+
+  const handleSendRequest = async (event: React.FormEvent<HTMLFormElement>) => {
+    if (!user) return;
+    event.preventDefault();
+
+    // ボタンを押した回数で押せないようにする
+    if (await !canSubmitButton()) {
+      setIsMaxSubmitCount(true);
+      setSnackbarContent("今日はもう押せません");
+      return;
+    }
+
+    // ボタンを押す回数更新
+    await updateUserInfo();
 
     setLoading(true);
     try {
-      const response = await axios.get("https://us-central1-api-translator-e11f5.cloudfunctions.net/apiTest", {
-        params: {
-          url: apiUrl,
-          apiKey,
-        },
-      });
+      const response = await axios.get(
+        "https://us-central1-api-translator-e11f5.cloudfunctions.net/apiTest",
+        {
+          params: {
+            url: apiUrl,
+            apiKey,
+          },
+        }
+      );
       setResults(JSON.stringify(response.data, null, 2));
     } catch (error) {
       console.error("Error fetching data: ", error);
@@ -73,6 +117,20 @@ const ApiExplorer = () => {
       setLoading(false);
     }
   };
+
+  // 初回アクセス時にボタン押せるか確認
+  useEffect(
+    () => {
+      canSubmitButton().then((canSubmit) => {
+        if (canSubmit === false) {
+          setIsMaxSubmitCount(true);
+          setSnackbarContent("今日はもう押せません");
+        }
+      });
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
 
   useEffect(() => {
     if (!loading && !user) {
@@ -84,9 +142,23 @@ const ApiExplorer = () => {
     return <div>Loading...</div>;
   }
 
+  const handleClose = () => {
+    setSnackbarContent("");
+  };
+
   return (
     <>
       <Header />
+      <Snackbar
+        open={!!snackbarContent}
+        autoHideDuration={5000}
+        onClose={handleClose}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
+          {snackbarContent}
+        </Alert>
+      </Snackbar>
       <Container style={{ height: "85vh", paddingTop: "200px", width: "100%" }}>
         {loading && (
           <Modal open>
@@ -130,6 +202,7 @@ const ApiExplorer = () => {
           setApiUrl={setApiUrl}
           setApiKey={setApiKey}
           handleSendRequest={handleSendRequest}
+          canSubmitButton={isMaxSubmitCount}
         />
         <Typography component="h1" variant="h4" align="left" gutterBottom>
           Results
