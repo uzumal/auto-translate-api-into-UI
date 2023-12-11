@@ -2,10 +2,8 @@ import React, {
   useState,
   useEffect,
   FunctionComponent,
-  SyntheticEvent,
 } from "react";
 import { PRE_TEXT } from "@/constants/openai";
-import axios from "axios";
 import { httpsCallable } from "firebase/functions";
 import { functions } from "@/firebase/firebase";
 

@@ -1,41 +1,33 @@
 import * as functions from "firebase-functions";
 import axios from "axios";
-import cors from "cors";
 
-// setting CORS
-const corsMiddleware = cors({ origin: true });
-
-export const apiTest = functions.https.onRequest((req, res) => {
-  corsMiddleware(req, res, async () => {
-    res.set("Access-Control-Allow-Origin", "*");
+exports.apiTest = functions.https.onCall(async (data, context) => {
     try {
-      // URL パラメータを取得
-      const url: string | undefined = req.query.url as string;
-      const apiKey: string | undefined = req.query.apiKey as string;
-
+      // データからパラメータを取得
+      const url = data.url;
+      const apiKey = data.apiKey;
+  
       if (!url) {
-        res.status(400).send("Required parameters are missing");
-        return;
+        throw new functions.https.HttpsError('invalid-argument', 'Required parameters are missing');
       }
-
+  
       const config = {
         headers: apiKey ? { Authorization: `Bearer ${apiKey}` } : {},
       };
-
-      // axios を使用して外部 API を呼び出す
+  
+      // axiosを使用して外部APIを呼び出す
       const response = await axios.get(url, config);
-
-      console.log("GET request", req.query);
+  
+      console.log("Request data", data);
       console.log("Response: ", response.data);
-
+  
       // レスポンスを返す
-      res.status(200).json(response.data);
+      return response.data;
     } catch (error) {
       console.error("Error:", error);
-      res.status(500).send("Internal Server Error");
+      throw new functions.https.HttpsError('internal', 'Internal Server Error');
     }
   });
-});
 
 exports.callOpenAI = functions.https.onCall(async (data, context) => {
   try {
