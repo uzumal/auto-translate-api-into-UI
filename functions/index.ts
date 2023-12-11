@@ -37,7 +37,7 @@ exports.callOpenAI = functions.https.onCall(async (data, context) => {
 
     const openAIResponse = await axios({
       method: "post",
-      url: "https://api.openai.com/v1/engines/text-davinci-003/completions",
+      url: "https://api.openai.com/v1/engines/gpt-3.5-turbo/completions",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_OPENAI_API_KEY}`,

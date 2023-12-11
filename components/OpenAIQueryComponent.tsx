@@ -21,7 +21,7 @@ const OpenAIQueryComponent: FunctionComponent<{ prompt: string }> = ({
         const onCallOpenAI = httpsCallable(functions, "callOpenAI");
         const response = await onCallOpenAI({
           prompt: PRE_TEXT + prompt,
-          max_tokens: 1000,
+          max_tokens: 2500,
         });
         const data: any = response.data;
         console.log("API Response Data:", data); // Log the data for debugging
