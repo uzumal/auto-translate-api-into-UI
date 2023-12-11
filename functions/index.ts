@@ -1,7 +1,6 @@
 import * as functions from "firebase-functions";
 import axios from "axios";
 
-
 exports.apiTest = functions.https.onCall(async (data, context) => {
     try {
       // データからパラメータを取得
@@ -13,7 +12,7 @@ exports.apiTest = functions.https.onCall(async (data, context) => {
       }
   
       const config = {
-        headers: apiKey ? {Authorization: `Bearer ${apiKey}`} : {},
+        headers: apiKey ? { Authorization: `Bearer ${apiKey}` } : {},
       };
   
       // axiosを使用して外部APIを呼び出す

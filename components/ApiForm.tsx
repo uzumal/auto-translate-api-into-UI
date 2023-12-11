@@ -8,6 +8,7 @@ type ApiFormProps = {
   setApiUrl: (url: string) => void;
   setApiKey: (key: string) => void;
   handleSendRequest: (event: React.FormEvent<HTMLFormElement>) => void;
+  canSubmitButton: boolean;
 };
 
 const ApiForm: React.FC<ApiFormProps> = ({
@@ -17,6 +18,7 @@ const ApiForm: React.FC<ApiFormProps> = ({
   setApiUrl,
   setApiKey,
   handleSendRequest,
+  canSubmitButton,
 }) => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     if (!loading) {
@@ -94,7 +96,7 @@ const ApiForm: React.FC<ApiFormProps> = ({
           <Button
             type="submit"
             variant="contained"
-            disabled={loading}
+            disabled={loading || canSubmitButton}
             fullWidth
             style={{
               height: "55px",
