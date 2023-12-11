@@ -13,10 +13,11 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import ApiForm from "../components/ApiForm";
 import ResultsDisplay from "../components/ResultsDisplay";
-import axios from "axios";
-import { authPromise, firestore } from "../firebase/firebase";
+import { authPromise, firestore, functions } from "../firebase/firebase";
 import { User } from "firebase/auth";
 import { collection, doc, getDoc, setDoc } from "firebase/firestore";
+import firebase from "firebase/app";
+import { httpsCallable } from "firebase/functions";
 
 const ApiExplorer = () => {
   const [apiUrl, setApiUrl] = useState("");
@@ -100,15 +101,8 @@ const ApiExplorer = () => {
 
     setLoading(true);
     try {
-      const response = await axios.get(
-        "https://us-central1-api-translator-e11f5.cloudfunctions.net/apiTest",
-        {
-          params: {
-            url: apiUrl,
-            apiKey,
-          },
-        }
-      );
+      const onCallApiTest = httpsCallable(functions, "apiTest");
+      const response = await onCallApiTest({ url: apiUrl, apiKey });
       setResults(JSON.stringify(response.data, null, 2));
     } catch (error) {
       console.error("Error fetching data: ", error);
