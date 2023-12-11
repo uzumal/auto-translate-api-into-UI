@@ -72,14 +72,17 @@ const ApiExplorer = () => {
 
   // まだOpenAIを呼べるか確認
   const canSubmitButton = async () => {
-    if (!user) return;
+    if (!user) return false;
 
     // ユーザードキュメントの存在確認
     const db = firestore;
     const docRef = doc(db, "users", user.uid);
     const todayString = getTodayString();
     const userInfo = await getDoc(docRef);
-    if (userInfo.exists() && userInfo.data()[todayString] >= maxCallCount) {
+    if (
+      userInfo.exists() &&
+      userInfo.data()[todayString].count >= maxCallCount
+    ) {
       return false;
     }
     return true;
@@ -115,6 +118,7 @@ const ApiExplorer = () => {
   // 初回アクセス時にボタン押せるか確認
   useEffect(
     () => {
+      if (!user) return;
       canSubmitButton().then((canSubmit) => {
         if (canSubmit === false) {
           setIsMaxSubmitCount(true);
@@ -123,7 +127,7 @@ const ApiExplorer = () => {
       });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
+    [user]
   );
 
   useEffect(() => {
