@@ -7,7 +7,6 @@ import Footer from "../components/Footer";
 import ApiForm from "../components/ApiForm";
 import ResultsDisplay from "../components/ResultsDisplay";
 import axios from "axios";
-// import { useAuthState } from "react-firebase-hooks/auth";
 import { authPromise } from "../firebase/firebase";
 import { User } from "firebase/auth";
 

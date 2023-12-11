@@ -21,7 +21,7 @@ const OpenAIQueryComponent: FunctionComponent<{ prompt: string }> = ({
 
             const response = await axios.post("https://us-central1-api-translator-e11f5.cloudfunctions.net/callOpenAI", {
               prompt: PRE_TEXT + prompt,
-              max_tokens: 1000 // example max_tokens value
+              max_tokens: 2000 // example max_tokens value
           });
       
           const data = response.data;
