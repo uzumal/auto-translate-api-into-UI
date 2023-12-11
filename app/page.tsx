@@ -59,7 +59,7 @@ const ApiExplorer = () => {
 
     setLoading(true);
     try {
-      const response = await axios.get("/api/test", {
+      const response = await axios.get("https://us-central1-api-translator-e11f5.cloudfunctions.net/apiTest", {
         params: {
           url: apiUrl,
           apiKey,
