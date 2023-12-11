@@ -1,15 +1,12 @@
-import React, {
-  useState,
-  useEffect,
-  FunctionComponent,
-} from "react";
+import React, { useState, useEffect, FunctionComponent } from "react";
 import { PRE_TEXT } from "@/constants/openai";
 import { httpsCallable } from "firebase/functions";
 import { functions } from "@/firebase/firebase";
 
-const OpenAIQueryComponent: FunctionComponent<{ prompt: string }> = ({
-  prompt,
-}) => {
+const OpenAIQueryComponent: FunctionComponent<{
+  prompt: string;
+  setIsCallingApi: (loading: boolean) => void;
+}> = ({ prompt, setIsCallingApi }) => {
   const [code, setCode] = useState("");
   const [iframeSrc, setIframeSrc] = useState("");
 
@@ -17,6 +14,7 @@ const OpenAIQueryComponent: FunctionComponent<{ prompt: string }> = ({
     if (!prompt) return;
     const fetchData = async () => {
       try {
+        // setIsCallingApi(true);
         console.log("Making API call with prompt:", prompt);
         const onCallOpenAI = httpsCallable(functions, "callOpenAI");
         const response = await onCallOpenAI({
@@ -35,11 +33,12 @@ const OpenAIQueryComponent: FunctionComponent<{ prompt: string }> = ({
       } catch (error) {
         console.error("Error fetching data:", error);
         setCode("Error loading code.");
+      } finally {
+        setIsCallingApi(false);
       }
     };
-
     fetchData();
-  }, [prompt]); // Depend on prompt
+  }, [prompt, setIsCallingApi]); // Depend on prompt
 
   useEffect(() => {
     if (!code) {

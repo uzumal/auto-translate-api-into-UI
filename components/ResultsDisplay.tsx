@@ -5,9 +5,13 @@ import OpenAIQueryComponent from "./OpenAIQueryComponent";
 
 type ResultDisplayProps = {
   results: string;
+  setIsCallingApi: (loading: boolean) => void;
 };
 
-const ResultDisplay: React.FC<ResultDisplayProps> = ({ results }) => {
+const ResultDisplay: React.FC<ResultDisplayProps> = ({
+  results,
+  setIsCallingApi,
+}) => {
   return (
     <div style={{ paddingBottom: "40px" }}>
       {results ? (
@@ -24,7 +28,10 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({ results }) => {
             // },
           }}
         >
-          <OpenAIQueryComponent prompt={results} />
+          <OpenAIQueryComponent
+            prompt={results}
+            setIsCallingApi={setIsCallingApi}
+          />
         </div>
       ) : (
         <Typography component="h3" align="left" gutterBottom>
