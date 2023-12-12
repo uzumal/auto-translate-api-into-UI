@@ -19,14 +19,21 @@ const OpenAIQueryComponent: FunctionComponent<{
         const onCallOpenAI = httpsCallable(functions, "callOpenAI");
         const response = await onCallOpenAI({
           prompt: PRE_TEXT + prompt,
-          max_tokens: 2500,
+          max_tokens: 1500,
         });
         const data: any = response.data;
         console.log("API Response Data:", data); // Log the data for debugging
-        if (data.choices && data.choices.length > 0 && data.choices[0].text) {
-          const fullText = data.choices[0].text.trim();
-          setCode(fullText);
-          console.log("Received Text:", fullText);
+        console.log(".message" + data.choices[0].message)
+        if (data.choices && data.choices.length > 0 && data.choices[0].message.content) {
+          const fullText = data.choices[0].message.content.trim();
+          const htmlRegex = /<!DOCTYPE html>[\s\S]*<\/html>/; // 正規表現でHTML部分をマッチさせる
+          const htmlMatch = fullText.match(htmlRegex);
+          if (htmlMatch && htmlMatch[0]) {
+            setCode(htmlMatch[0]);
+            console.log("Received HTML:", htmlMatch[0]);
+          } else {
+            setCode("No HTML code found.");
+          }
         } else {
           setCode("No code found.");
         }
@@ -38,7 +45,7 @@ const OpenAIQueryComponent: FunctionComponent<{
       }
     };
     fetchData();
-  }, [prompt, setIsCallingApi]); // Depend on prompt
+  }, [prompt, setIsCallingApi]);
 
   useEffect(() => {
     if (!code) {

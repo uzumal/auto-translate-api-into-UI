@@ -4,6 +4,8 @@ import firebase from "firebase/compat/app"; // Firebase v9 以降の場合は 'f
 import "firebaseui/dist/firebaseui.css";
 import * as firebaseui from "firebaseui";
 import { auth } from "../firebase/firebase"; // firebase.js からのインポート
+import { Container, Typography } from "@mui/material";
+
 
 const SignIn = () => {
   useEffect(() => {
@@ -28,10 +30,16 @@ const SignIn = () => {
   }, []);
 
   return (
-    <div>
-      <h1>SignIn</h1>
+    <Container maxWidth="sm" style={{ marginTop: "4rem", textAlign: "center" }}>
+      <Typography 
+        variant="h3" 
+        component="h1" 
+        gutterBottom 
+        style={{ color: "#3f51b5", fontWeight: "bold", marginBottom: "16px"}}>
+        Sign In
+      </Typography>
       <div id="firebaseui-auth-container"></div>
-    </div>
+    </Container>
   );
 };
 

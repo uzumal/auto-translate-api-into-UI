@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { auth, authPromise } from "../../firebase/firebase";
+import { authPromise } from "../../firebase/firebase";
 import dynamic from "next/dynamic";
 const SignIn = dynamic(() => import("../../components/SignIn"), { ssr: false });
 import Header from "../../components/Header";
@@ -34,7 +34,6 @@ const AuthPage = () => {
   return (
     <div>
       <Header />
-      <h1>Auth Page</h1>
       <SignIn />
       <Footer />
     </div>
